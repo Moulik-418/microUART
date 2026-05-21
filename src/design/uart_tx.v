@@ -4,7 +4,7 @@ module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk,
     input [width-1:0]xmitdataH;
     output reg uart_xmit_dataH;
     output reg xmit_doneH;
-    output xmit_active;
+    output reg xmit_active;
 
     wire clk;
     reg [width-1:0]data_out;
