@@ -29,6 +29,7 @@ module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk,
           	xmit_doneH <= 1'b1;
         	count_val <= 0;
         	i <= 0;
+        	xmit_active <= 1'b0;
        // baud_count <= 0;
       end
 
