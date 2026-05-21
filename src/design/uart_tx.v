@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk, sys_rst_l, xmitH, xmitdataH, uart_xmit_dataH, xmit_doneH, xmit_active);
-    input clk, sys_rst_l, xmitH;
+module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(sys_clk, sys_rst_l, xmitH, xmitdataH, uart_xmit_dataH, xmit_doneH, xmit_active);
+    input sys_clk, sys_rst_l, xmitH;
     input [width-1:0]xmitdataH;
     output reg uart_xmit_dataH;
     output reg xmit_doneH;
