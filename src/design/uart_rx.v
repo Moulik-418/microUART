@@ -51,7 +51,7 @@ case(states)
     end
     
     REC_DATA : begin 
-        rec_readyH <= 1'b0
+        rec_readyH <= 1'b0;
        rec_busy <= 1'b1;
       if(count >= 15)begin 
       tmp_data[i] <= uart_REC_dataH;        
@@ -67,7 +67,7 @@ case(states)
     end
     
     STOP : begin 
-      if(count >= 7)begin
+      if(count >= 15)begin
                 states <= IDLE;
                 count <= 0;
 
