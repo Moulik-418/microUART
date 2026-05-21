@@ -19,7 +19,7 @@ module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk,
     localparam IDLE = 2'd0, START = 2'd1, SEND_DATA = 2'd2, STOP = 2'd3 ;
     reg [1:0]states;
 
-    assign xmit_active = ((states == START) || (states == SEND_DATA))?1'b1:1'b0;
+    //assign xmit_active = ((states == START) || (states == SEND_DATA))?1'b1:1'b0;
     
     always@(posedge clk or negedge sys_rst_l)begin 
       if(!sys_rst_l)begin 
@@ -36,7 +36,8 @@ module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk,
 		//baud_count <= tmp_baud_count;
         
         case(states) 
-          IDLE : begin 
+          IDLE : begin
+			xmit_active <= 1'b0;  
             uart_xmit_dataH <= 1'b1;
             if(xmitH)begin 
               xmit_doneH <= 1'b0;
@@ -45,6 +46,7 @@ module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk,
           end
 
           START : begin 
+			  xmit_active <= 1'b1;
             uart_xmit_dataH <= 1'b0;
             if(count_val >= 15)begin 
               data_out <= xmitdataH;
@@ -57,7 +59,7 @@ module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk,
 
           SEND_DATA : begin 
             uart_xmit_dataH <= data_out[i] ;
-
+			 xmit_active <= 1'b1;
             if(i < width-1)begin 
               if(count_val >= 15) begin 
                 count_val <= 0;
@@ -84,6 +86,7 @@ module uart_tx#(parameter width = 4'd8, parameter integer baud_rate = 9600)(clk,
             if(count_val >= 15)begin 
               count_val <= 0;
               xmit_doneH <= 1'b1;
+			  xmit_active <= 1'b0;
               if(xmitH)
                 states <= START;
               else 
